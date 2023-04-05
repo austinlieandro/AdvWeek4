@@ -4,12 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.advweek4.R
 import com.example.advweek4.model.Student
+import com.example.advweek4.util.loadImage
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 
 class StudentListAdapter(val studenList:ArrayList<Student>) :RecyclerView.Adapter<StudentListAdapter.StudentViewHolder>()
 {
@@ -23,7 +28,6 @@ class StudentListAdapter(val studenList:ArrayList<Student>) :RecyclerView.Adapte
 
     override fun getItemCount(): Int {
         return studenList.size
-
     }
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
@@ -34,9 +38,13 @@ class StudentListAdapter(val studenList:ArrayList<Student>) :RecyclerView.Adapte
         txtID.text = studenList[position].id
         txtName.text = studenList[position].name
         btnDetail.setOnClickListener {
-            val action = StudentListFragmentDirections.actionStudentDetail()
+            val action = StudentListFragmentDirections.actionStudentDetail(studenList[position].id.toString())
             Navigation.findNavController(it).navigate(action)
         }
+
+        var imageView = holder.view.findViewById<ImageView>(R.id.imageView)
+        var progressBar = holder.view.findViewById<ProgressBar>(R.id.progressBar)
+        imageView.loadImage(studenList[position].photoUrl, progressBar)
     }
 
     fun updateStudentList(newStudentList: ArrayList<Student>) {

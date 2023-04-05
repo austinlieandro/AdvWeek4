@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.advweek4.R
+import com.example.advweek4.util.loadImage
 import com.example.advweek4.viewmodel.DetailViewModel
 
 class StudentDetailFragment : Fragment() {
@@ -23,8 +26,11 @@ class StudentDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val studentId = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentId
+
         viewModel =ViewModelProvider(this).get(DetailViewModel::class.java)
-        viewModel.fetch()
+        viewModel.fetch(studentId)
 
         observeViewModel()
     }
@@ -35,11 +41,16 @@ class StudentDetailFragment : Fragment() {
             val txtName = view?.findViewById<TextView>(R.id.txtName)
             val txtbod = view?.findViewById<TextView>(R.id.txtBod)
             val txtPhone = view?.findViewById<TextView>(R.id.txtPhone)
+            val imgView = view?.findViewById<ImageView>(R.id.imageView2)
+            val progressBar2 = view?.findViewById<ProgressBar>(R.id.progressBar2)
 
             txtID?.setText(studentLD.id)
             txtName?.setText(studentLD.name)
             txtbod?.setText(studentLD.dob)
             txtPhone?.setText(studentLD.phone)
+            if (progressBar2 != null) {
+                imgView?.loadImage(studentLD.photoUrl, progressBar2)
+            }
         })
     }
 }
