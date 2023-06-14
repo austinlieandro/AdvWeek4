@@ -7,15 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.advweek4.R
 import com.example.advweek4.databinding.FragmentStudentDetailBinding
+import com.example.advweek4.model.Student
 import com.example.advweek4.util.loadImage
 import com.example.advweek4.viewmodel.DetailViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -23,7 +21,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class StudentDetailFragment : Fragment() {
+class StudentDetailFragment : Fragment(), StudentDetailClickListener {
     private lateinit var viewModel: DetailViewModel
     private lateinit var dataBinding: FragmentStudentDetailBinding
 
@@ -37,7 +35,6 @@ class StudentDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val studentId = StudentDetailFragmentArgs.fromBundle(requireArguments()).studentId
 
         viewModel =ViewModelProvider(this).get(DetailViewModel::class.java)
@@ -50,6 +47,7 @@ class StudentDetailFragment : Fragment() {
     private fun observeViewModel(){
         viewModel.studentLD.observe(viewLifecycleOwner, Observer {
             dataBinding.student = it
+            dataBinding.listener = this
         })
 //        viewModel.studentLD.observe(viewLifecycleOwner, Observer { studentLD->
 //            val txtID = view?.findViewById<TextView>(R.id.txtID)
@@ -82,5 +80,13 @@ class StudentDetailFragment : Fragment() {
 //                    }
 //            }
 //        })
+    }
+
+    override fun onUpdateClicked(v: View, student: Student) {
+
+    }
+
+    override fun onNotificationClicked(v: View, student: Student) {
+
     }
 }
