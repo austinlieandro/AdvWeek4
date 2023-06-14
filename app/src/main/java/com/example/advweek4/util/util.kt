@@ -12,6 +12,12 @@ import com.example.advweek4.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
+
+@BindingAdapter("android:imageUrl", "android:ProgressBar")
+fun loadPhotoUrl(view: ImageView, url: String, pb: ProgressBar) {
+    view.loadImage(url, pb)
+}
+
 fun ImageView.loadImage(url: String?, progressBar: ProgressBar) {
     Picasso.get()
         .load(url).resize(400, 400).centerCrop()
@@ -35,9 +41,4 @@ fun createNotificationChannel(context: Context, importance: Int, showBadge:Boole
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(channel)
     }
-
-@BindingAdapter("android:imageUrl", "android:ProgressBar")
-fun loadPhotoUrl(view: ImageView, url: String, pb:ProgressBar){
-    view.loadImage(url,pb)
-}
 }
